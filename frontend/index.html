@@ -8,22 +8,40 @@
 
 <body>
 
-    <div class="container">
+<div class="background"></div>
+
+<div class="container">
+
+    <div class="hero">
 
         <h1>AI Resume Analyzer</h1>
 
-        <input type="file" id="resumeFile">
+        <p>
+            Upload your resume and get ATS score,
+            role prediction and skill analysis instantly.
+        </p>
 
-        <button onclick="uploadResume()">
-            Analyze Resume
-        </button>
+    </div>
+
+    <div class="upload-card">
+
+        <div class="upload-card">
+
+<input type="file" id="resumeFile">
+
+<button onclick="uploadResume()">
+Analyze Resume
+</button>
+
+</div>
 
         <div id="result"></div>
 
     </div>
 
-    <script src="script.js"></script>
+</div>
+
+<script src="script.js"></script>
 
 </body>
-
 </html>

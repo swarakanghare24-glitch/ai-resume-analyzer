@@ -1,35 +1,83 @@
 async function uploadResume() {
-    const fileInput = document.getElementById("resumeFile");
-    const resultDiv = document.getElementById("result");
 
-    if (!fileInput.files.length) {
-        alert("Please select a resume PDF");
-        return;
-    }
+const fileInput = document.getElementById("resumeFile");
 
-    const formData = new FormData();
-    formData.append("file", fileInput.files[0]);
+const result = document.getElementById("result");
 
-    try {
-        const response = await fetch(
-            "http://127.0.0.1:8000/upload",
-            {
-                method: "POST",
-                body: formData
-            }
-        );
+if (!fileInput.files[0]) {
 
-        const data = await response.json();
+result.innerHTML = "Please upload a resume first.";
 
-        resultDiv.innerHTML = `
-            <h2>Analysis Result</h2>
-            <p><strong>Predicted Role:</strong> ${data.predicted_role}</p>
-            <p><strong>ATS Score:</strong> ${data.ats_score}</p>
-            <p><strong>Skills Found:</strong> ${data.skills_found.join(", ")}</p>
-            <p><strong>Missing Skills:</strong> ${data.missing_skills.join(", ")}</p>
-        `;
-    } catch (error) {
-        resultDiv.innerHTML = "Error analyzing resume.";
-        console.error(error);
-    }
+return;
+
+}
+
+const formData = new FormData();
+
+formData.append(
+"file",
+fileInput.files[0]
+);
+
+result.innerHTML = "Analyzing Resume...";
+
+try {
+
+const response = await fetch(
+"http://127.0.0.1:8000/upload",
+{
+method: "POST",
+body: formData
+}
+);
+
+const data = await response.json();
+
+result.innerHTML = `
+
+<div class="result-card">
+
+<h3>Predicted Role</h3>
+
+<p>${data.predicted_role}</p>
+
+</div>
+
+<div class="result-card">
+
+<h3>ATS Score</h3>
+
+<p>${data.ats_score}%</p>
+
+</div>
+
+<div class="result-card">
+
+<h3>Skills Found</h3>
+
+<p>${data.skills_found.join(", ")}</p>
+
+</div>
+
+<div class="result-card">
+
+<h3>Missing Skills</h3>
+
+<p>${data.missing_skills.join(", ")}</p>
+
+</div>
+
+`;
+
+}
+
+catch(error){
+
+console.log(error);
+
+result.innerHTML =
+"Error analyzing resume";
+
+}
+
 }
